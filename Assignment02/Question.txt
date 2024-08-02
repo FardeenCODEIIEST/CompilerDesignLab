@@ -1,0 +1,11 @@
+Assignment on Lexical Analyzer:--
+
+Implement a lexical analyzer using the tool: lex/flex for the following types of tokens:
+
+a) Arithmetic, Relational, Logical, Bitwise and Assignment Operators of C.
+b) Reserved words: int, float, char, for, do, while, if and else.
+c) Identifier.
+d) Integer Constants.
+e) Parentheses, Curly braces
+
+Take a complete C program as input and generate the tokens.

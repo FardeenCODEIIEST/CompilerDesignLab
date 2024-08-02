@@ -60,7 +60,7 @@
 #define EXP_LITERAL 278
 
 // Keyword OFFSET --> keywords starting from this token_id
-#define KEYWORD_OFFSET 278
+#define KEYWORD_OFFSET 279
 
 // Source code file pointer
 FILE *yyin;
