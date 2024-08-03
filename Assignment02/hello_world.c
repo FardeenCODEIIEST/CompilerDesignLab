@@ -2,6 +2,11 @@
 
 //	This is a comment
 
+/* 
+ * This is a multine comment
+ *
+ */
+
 #define HELLO "Hello there!"
 int main()
 {
