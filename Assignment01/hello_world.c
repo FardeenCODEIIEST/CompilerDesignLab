@@ -1,6 +1,11 @@
 #include <stdio.h>
+
 /*
-	This is a multi-line comment
+****
+
+  * This is a multi-line comment
+
+***
 */
 #define HELLO "Hello there!"
 int main()

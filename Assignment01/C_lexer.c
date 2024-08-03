@@ -133,15 +133,23 @@ void ignore_comment_or_macro()
 void ignore_multiline_comment()
 {
     state = 0;
-
+    int star_cnt=0;
     do
     {
         fscanf(yyin, "%c", &yytext[yytextPointer]);
-        if (yytext[yytextPointer] == '\n')
+	if(yytext[yytextPointer]=='*')
+	{
+		star_cnt++;
+	}
+	else if(yytext[yytextPointer]!='/')
+	{
+		star_cnt=0;
+	}
+	if (yytext[yytextPointer] == '\n')
             yylineNo++;
-    } while (yytext[yytextPointer] != '*');
+    } while (!(yytext[yytextPointer]=='/' && star_cnt>=1));
 
-    fscanf(yyin, "%c", &yytext[yytextPointer]); // scan the / character
+    // fscanf(yyin, "%c", &yytext[yytextPointer]); // scan the / character
 
     // clear the buffer
     memset(yytext, '\0', MAX_LEXEME_LENGTH);
