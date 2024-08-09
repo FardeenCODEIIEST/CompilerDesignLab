@@ -8,10 +8,19 @@
 ***
 */
 #define HELLO "Hello there!"
+
+struct point{
+	int x;
+	int y;
+	unsigned int z;
+};
+
 int main()
 {
 	int a = 10, b = 10;
 	int c = a ^ b;
+
+//	int 14ch = 3%4;
 
 	a ^= c;
 

@@ -106,7 +106,6 @@
 \?                                                  {return QUESTION_MARK_TOK;}
 \:                                                  {return COLON_TOK;}
 
-
 auto                                                {return KEYWORD_OFFSET;}
 const                                               {return KEYWORD_OFFSET+1;}
 double                                              {return KEYWORD_OFFSET+2;}
@@ -147,15 +146,24 @@ while                                               {return KEYWORD_OFFSET+31;}
 (\+|\-)?[0-9]*\.[0-9]+                              {return FLOAT_LITERAL;} 
 (\+|\-)?[0-9]+(\.[0-9]+)?\e(\+|\-)?[0-9]+           {return EXP_LITERAL;}
 
-
 \n                                                  {}
 \t                                                  {}
 #.*                                                 {}
 \/\*[^*]*\*+(?:[^/*][^*]*\*+)*\/	            {}
 \/\/.*                                              {}
 
+[0-9]+[a-zA-z\_$]+				    {
+						    	fprintf(yyout,"Lexical Error\n");
+							return -1;
+						    }
 
 %%
+
+int yyerror(char* errorText)
+{
+	fprintf(yyout,"%s\n",errorText);
+	return 0;
+}
 
 int yywrap()
 {

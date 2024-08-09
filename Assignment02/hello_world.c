@@ -15,6 +15,8 @@ int main()
 
     char dh = 'p';
 
+    int 65gf = 56+9;	
+
     a ^= c;
 
     a &= b;

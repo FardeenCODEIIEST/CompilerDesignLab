@@ -582,6 +582,11 @@ int yylex()
             {
                 state = 38;
             }
+	    else if(isalpha(yytext[yytextPointer])||yytext[yytextPointer]=='_'||yytext[yytextPointer]=='$')
+	    {
+                fprintf(yyout, "Error on line number: %d\n", yylineNo);
+                return -1;
+	    }
             else
                 return go_back();
         }
