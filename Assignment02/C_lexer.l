@@ -56,6 +56,8 @@
 
 #define KEYWORD_OFFSET 279
 
+#define CHAR_CONST_TOK 312
+
 %}
 
 %%
@@ -100,7 +102,7 @@
 \]                                                  {return RBRACKET_TOK;}
 \.                                                  {return PERIOD_TOK;}
 \\                                                  {return ESCAPE_NOTATION_TOK;}
-\'                                                  {return SINGLE_INVERTED_COMMA;}
+\'[^\\]\'                                           {return CHAR_CONST_TOK;}
 \?                                                  {return QUESTION_MARK_TOK;}
 \:                                                  {return COLON_TOK;}
 
@@ -145,6 +147,7 @@ while                                               {return KEYWORD_OFFSET+31;}
 (\+|\-)?[0-9]*\.[0-9]+                              {return FLOAT_LITERAL;} 
 (\+|\-)?[0-9]+(\.[0-9]+)?\e(\+|\-)?[0-9]+           {return EXP_LITERAL;}
 
+
 \n                                                  {}
 \t                                                  {}
 #.*                                                 {}
@@ -177,10 +180,10 @@ int main(int argc,char* argv[])
     }
 
     int token_id;
-    fprintf(yyout, "%-20s %-20s\n", "LEXEME_NAME", "TOKEN_ID");
+    fprintf(yyout, "%-50s %-50s\n", "LEXEME_NAME", "TOKEN_ID");
     while((token_id=yylex())>0)
     {
-        fprintf(yyout, "%-20s %d\n", yytext, token_id);
+        fprintf(yyout, "%-50s %d\n", yytext, token_id);
     }
 
     fprintf(yyout,"LEXICAL ANALYSIS COMPLETED ....\n");

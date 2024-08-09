@@ -2,7 +2,7 @@
 
 //	This is a comment
 
-/* 
+/*
  * This is a multine comment
  *
  */
@@ -12,6 +12,8 @@ int main()
 {
     int a = 10, b = 10;
     int c = a ^ b;
+
+    char dh = 'p';
 
     a ^= c;
 
