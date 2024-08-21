@@ -1,0 +1,76 @@
+For lexeme (, Substitution: E ---> TE'
+For lexeme (, Substitution: T ---> FT'
+For lexeme (, Substitution: F ---> (id)
+Matched (
+For lexeme a, Substitution: E ---> TE'
+For lexeme a, Substitution: T ---> FT'
+For lexeme a, Substitution: F ---> id
+Matched a
+For lexeme +, Substitution: T' ---> epsilon
+For lexeme +, Substitution: E' ---> +TE'
+Matched +
+For lexeme b, Substitution: T ---> FT'
+For lexeme b, Substitution: F ---> id
+Matched b
+For lexeme ), Substitution: T' ---> epsilon
+For lexeme ), Substitution: E' ---> epsilon
+Matched )
+For lexeme *, Substitution: T' ---> *FT'
+Matched *
+For lexeme (, Substitution: F ---> (id)
+Matched (
+For lexeme (, Substitution: E ---> TE'
+For lexeme (, Substitution: T ---> FT'
+For lexeme (, Substitution: F ---> (id)
+Matched (
+For lexeme c, Substitution: E ---> TE'
+For lexeme c, Substitution: T ---> FT'
+For lexeme c, Substitution: F ---> id
+Matched c
+For lexeme +, Substitution: T' ---> epsilon
+For lexeme +, Substitution: E' ---> +TE'
+Matched +
+For lexeme d, Substitution: T ---> FT'
+For lexeme d, Substitution: F ---> id
+Matched d
+For lexeme ), Substitution: T' ---> epsilon
+For lexeme ), Substitution: E' ---> epsilon
+Matched )
+For lexeme *, Substitution: T' ---> *FT'
+Matched *
+For lexeme (, Substitution: F ---> (id)
+Matched (
+For lexeme f, Substitution: E ---> TE'
+For lexeme f, Substitution: T ---> FT'
+For lexeme f, Substitution: F ---> id
+Matched f
+For lexeme +, Substitution: T' ---> epsilon
+For lexeme +, Substitution: E' ---> +TE'
+Matched +
+For lexeme e, Substitution: T ---> FT'
+For lexeme e, Substitution: F ---> id
+Matched e
+For lexeme ), Substitution: T' ---> epsilon
+For lexeme ), Substitution: E' ---> epsilon
+Matched )
+For lexeme ), Substitution: T' ---> epsilon
+For lexeme ), Substitution: E' ---> epsilon
+Matched )
+For lexeme *, Substitution: T' ---> *FT'
+Matched *
+For lexeme g, Substitution: F ---> id
+Matched g
+For lexeme +, Substitution: T' ---> epsilon
+For lexeme +, Substitution: E' ---> +TE'
+Matched +
+For lexeme h, Substitution: T ---> FT'
+For lexeme h, Substitution: F ---> id
+Matched h
+For lexeme *, Substitution: T' ---> *FT'
+Matched *
+For lexeme i, Substitution: F ---> id
+Matched i
+For lexeme $, Substitution: T' ---> epsilon
+For lexeme $, Substitution: E' ---> epsilon
+Given Expression is syntactically correct!!
+Parsing Completed.....
