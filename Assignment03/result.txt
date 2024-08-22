@@ -1,0 +1,36 @@
+For lexeme `a`, Substitution: E ---> TE'
+For lexeme `a`, Substitution: T ---> FT'
+For lexeme `a`, Substitution: F ---> id
+Matched `a`
+For lexeme `*`, Substitution: T' ---> *FT'
+Matched `*`
+For lexeme `(`, Substitution: F ---> (id)
+Matched `(`
+For lexeme `b`, Substitution: E ---> TE'
+For lexeme `b`, Substitution: T ---> FT'
+For lexeme `b`, Substitution: F ---> id
+Matched `b`
+For lexeme `*`, Substitution: T' ---> *FT'
+Matched `*`
+For lexeme `(`, Substitution: F ---> (id)
+Matched `(`
+For lexeme `c`, Substitution: E ---> TE'
+For lexeme `c`, Substitution: T ---> FT'
+For lexeme `c`, Substitution: F ---> id
+Matched `c`
+For lexeme `+`, Substitution: T' ---> epsilon
+For lexeme `+`, Substitution: E' ---> +TE'
+Matched `+`
+For lexeme `d`, Substitution: T ---> FT'
+For lexeme `d`, Substitution: F ---> id
+Matched `d`
+For lexeme `)`, Substitution: T' ---> epsilon
+For lexeme `)`, Substitution: E' ---> epsilon
+Matched `)`
+For lexeme `)`, Substitution: T' ---> epsilon
+For lexeme `)`, Substitution: E' ---> epsilon
+Matched `)`
+For lexeme `$`, Substitution: T' ---> epsilon
+For lexeme `$`, Substitution: E' ---> epsilon
+Given Expression is syntactically correct!!
+Parsing Completed.....

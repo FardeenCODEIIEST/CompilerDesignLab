@@ -44,6 +44,7 @@ int main(int argc, char *argv[])
 
     while (1)
     {
+        // Input string is fully parsed
         if (token == -1)
             break;
 
@@ -52,14 +53,14 @@ int main(int argc, char *argv[])
         {
             if (token == ID_TOK)
             {
-                fprintf(yyout, "For lexeme %s, Substitution: E ---> TE'\n", yytext);
+                fprintf(yyout, "For lexeme `%s`, Substitution: E ---> TE'\n", yytext);
                 pop();
                 push(E_PRIME_NON_TERMINAL);
                 push(T_NON_TERMINAL);
             }
             else if (token == LPAREN_TOK)
             {
-                fprintf(yyout, "For lexeme %s, Substitution: E ---> TE'\n", yytext);
+                fprintf(yyout, "For lexeme `%s`, Substitution: E ---> TE'\n", yytext);
                 pop();
                 push(E_PRIME_NON_TERMINAL);
                 push(T_NON_TERMINAL);
@@ -74,7 +75,7 @@ int main(int argc, char *argv[])
         {
             if (token == PLUS_TOK)
             {
-                fprintf(yyout, "For lexeme %s, Substitution: E' ---> +TE'\n", yytext);
+                fprintf(yyout, "For lexeme `%s`, Substitution: E' ---> +TE'\n", yytext);
                 pop();
                 push(E_PRIME_NON_TERMINAL);
                 push(T_NON_TERMINAL);
@@ -82,12 +83,12 @@ int main(int argc, char *argv[])
             }
             else if (token == RPAREN_TOK)
             {
-                fprintf(yyout, "For lexeme %s, Substitution: E' ---> epsilon\n", yytext);
+                fprintf(yyout, "For lexeme `%s`, Substitution: E' ---> epsilon\n", yytext);
                 pop();
             }
             else if (token == DOLLAR_TOK)
             {
-                fprintf(yyout, "For lexeme %s, Substitution: E' ---> epsilon\n", yytext);
+                fprintf(yyout, "For lexeme `%s`, Substitution: E' ---> epsilon\n", yytext);
                 pop();
             }
             else
@@ -100,14 +101,14 @@ int main(int argc, char *argv[])
         {
             if (token == ID_TOK)
             {
-                fprintf(yyout, "For lexeme %s, Substitution: T ---> FT'\n", yytext);
+                fprintf(yyout, "For lexeme `%s`, Substitution: T ---> FT'\n", yytext);
                 pop();
                 push(T_PRIME_NON_TERMINAL);
                 push(F_NON_TERMINAL);
             }
             else if (token == LPAREN_TOK)
             {
-                fprintf(yyout, "For lexeme %s, Substitution: T ---> FT'\n", yytext);
+                fprintf(yyout, "For lexeme `%s`, Substitution: T ---> FT'\n", yytext);
                 pop();
                 push(T_PRIME_NON_TERMINAL);
                 push(F_NON_TERMINAL);
@@ -122,12 +123,12 @@ int main(int argc, char *argv[])
         {
             if (token == PLUS_TOK)
             {
-                fprintf(yyout, "For lexeme %s, Substitution: T' ---> epsilon\n", yytext);
+                fprintf(yyout, "For lexeme `%s`, Substitution: T' ---> epsilon\n", yytext);
                 pop();
             }
             else if (token == MUL_TOK)
             {
-                fprintf(yyout, "For lexeme %s, Substitution: T' ---> *FT'\n", yytext);
+                fprintf(yyout, "For lexeme `%s`, Substitution: T' ---> *FT'\n", yytext);
                 pop();
                 push(T_PRIME_NON_TERMINAL);
                 push(F_NON_TERMINAL);
@@ -135,12 +136,12 @@ int main(int argc, char *argv[])
             }
             else if (token == RPAREN_TOK)
             {
-                fprintf(yyout, "For lexeme %s, Substitution: T' ---> epsilon\n", yytext);
+                fprintf(yyout, "For lexeme `%s`, Substitution: T' ---> epsilon\n", yytext);
                 pop();
             }
             else if (token == DOLLAR_TOK)
             {
-                fprintf(yyout, "For lexeme %s, Substitution: T' ---> epsilon\n", yytext);
+                fprintf(yyout, "For lexeme `%s`, Substitution: T' ---> epsilon\n", yytext);
                 pop();
             }
             else
@@ -153,13 +154,13 @@ int main(int argc, char *argv[])
         {
             if (token == ID_TOK)
             {
-                fprintf(yyout, "For lexeme %s, Substitution: F ---> id\n", yytext);
+                fprintf(yyout, "For lexeme `%s`, Substitution: F ---> id\n", yytext);
                 pop();
                 push(ID_TOK);
             }
             else if (token == LPAREN_TOK)
             {
-                fprintf(yyout, "For lexeme %s, Substitution: F ---> (id)\n", yytext);
+                fprintf(yyout, "For lexeme `%s`, Substitution: F ---> (id)\n", yytext);
                 pop();
                 push(RPAREN_TOK);
                 push(E_NON_TERMINAL);
@@ -173,7 +174,7 @@ int main(int argc, char *argv[])
         }
         else if (stack_top == token && token != DOLLAR_TOK)
         {
-            fprintf(yyout, "Matched %s\n", yytext);
+            fprintf(yyout, "Matched `%s`\n", yytext);
             pop();
             memset(yytext, '\0', MAX_LEXEME_LENGTH);
             yytextPointer = 0;
@@ -186,6 +187,11 @@ int main(int argc, char *argv[])
             memset(yytext, '\0', MAX_LEXEME_LENGTH);
             yytextPointer = 0;
             token = yylex();
+        }
+        else
+        {
+            fprintf(yyout, "Expression is NOT syntactically correct\n");
+            exit(EXIT_FAILURE);
         }
     }
 
