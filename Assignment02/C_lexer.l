@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int yyerror(char*);
+
 #define LPAREN_TOK '('
 #define RPAREN_TOK ')'
 #define LCURLY_TOK '{'
@@ -146,14 +148,14 @@ while                                               {return KEYWORD_OFFSET+31;}
 (\+|\-)?[0-9]*\.[0-9]+                              {return FLOAT_LITERAL;} 
 (\+|\-)?[0-9]+(\.[0-9]+)?\e(\+|\-)?[0-9]+           {return EXP_LITERAL;}
 
-\n                                                  {}
+\n                                                  { yylineno++;}
 \t                                                  {}
-#.*                                                 {}
+#.*                                                 { yylineno++;}
 \/\*[^*]*\*+(?:[^/*][^*]*\*+)*\/	            {}
-\/\/.*                                              {}
+\/\/.*                                              { yylineno++;}
 
 [0-9]+[a-zA-z\_$]+				    {
-						    	fprintf(yyout,"Lexical Error\n");
+						    	yyerror("Identifier Name cannot start with a digit");
 							return -1;
 						    }
 
@@ -161,7 +163,8 @@ while                                               {return KEYWORD_OFFSET+31;}
 
 int yyerror(char* errorText)
 {
-	fprintf(yyout,"%s\n",errorText);
+	fprintf(yyout,"\nLexical Error at line no. %d\n",yylineno);
+	fprintf(yyout,"\n%s\n",errorText);
 	return 0;
 }
 
@@ -188,10 +191,10 @@ int main(int argc,char* argv[])
     }
 
     int token_id;
-    fprintf(yyout, "%-50s %-50s\n", "LEXEME_NAME", "TOKEN_ID");
+    fprintf(yyout, "\n%-50s %-50s\n", "LEXEME_NAME", "TOKEN_ID");
     while((token_id=yylex())>0)
     {
-        fprintf(yyout, "%-50s %d\n", yytext, token_id);
+        fprintf(yyout, "\n%-50s %d\n", yytext, token_id);
     }
 
     fprintf(yyout,"LEXICAL ANALYSIS COMPLETED ....\n");

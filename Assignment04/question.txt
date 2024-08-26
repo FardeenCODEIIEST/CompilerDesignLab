@@ -1,0 +1,14 @@
+Assignment on Syntax Analyzer:--
+
+Write YACC specification to design a parser for a subset of the C language. Consider the following programming language constructs:
+
+a) Main function
+b) Statements
+i) Statements like local/global declarations.
+ii) Assignment Statements.
+iii) Conditional Statements.
+iv) Iterative Statements
+v) Function Call
+c) User defined functions
+
+Consider the assumptions for the language previously considered in the last lab sessions. Variables of data types allowed in the subset can be defined at the very beginning of any function / block. A variable must be declared before it is used. Detect possible syntax errors with line numbers.
