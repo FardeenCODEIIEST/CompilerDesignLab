@@ -235,12 +235,12 @@ statement				:declarations SEMI_COLON_TOK
 						|CONTINUE_TOK SEMI_COLON_TOK
 						;
 
-param					:ID_TOK
-						|number_literal
+param					:data
 						|AND_TOK ID_TOK
 						|other_literal
 						|ID_TOK LPAREN_TOK RPAREN_TOK
 						|declaration
+						|initialization
 						;
 
 params					:param COMMA_TOK params
@@ -279,9 +279,13 @@ relational_expression	:data relational_operator data
 						|LPAREN_TOK data RPAREN_TOK
 						;
 
+data_t					:ID_TOK
+						|datatype
+
 data					:number_literal
 						|ID_TOK
 						|AND_TOK ID_TOK
+						|SIZEOF_TOK LPAREN_TOK data_t RPAREN_TOK
 						;
 
 declarations 			:declaration COMMA_TOK declarations

@@ -27,6 +27,8 @@ int main(int argc, char **argv)
 
     int address = &num1;
 
+    printf("%d %d", sizeof(int), sizeof(num1));
+
     int arr[10];
 
     float fp = 23.78;
