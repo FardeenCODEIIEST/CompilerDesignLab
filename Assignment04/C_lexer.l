@@ -89,7 +89,10 @@ union                                               {return UNION_TOK;}
 while                                               {return WHILE_TOK;}
 main					            				{return MAIN_FUNC_TOK;}
 
-([a-z]|[A-Z]|\_|\$)([a-z]|[A-Z]|[0-9]|\_|$)*        {return ID_TOK;}
+([a-z]|[A-Z]|\_|\$)([a-z]|[A-Z]|[0-9]|\_|$)*        {
+														yylval.idval=strdup(yytext);
+														return ID_TOK;
+													}
 
 \".*\"                                              {return STRING_LITERAL;}
 (\+|\-)?[0-9]+                                      {return INTEGER_LITERAL;}

@@ -1270,53 +1270,56 @@ YY_RULE_SETUP
 case 80:
 YY_RULE_SETUP
 #line 92 "./C_lexer.l"
-{return ID_TOK;}
+{
+														yylval.idval=strdup(yytext);
+														return ID_TOK;
+													}
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 94 "./C_lexer.l"
+#line 97 "./C_lexer.l"
 {return STRING_LITERAL;}
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 95 "./C_lexer.l"
+#line 98 "./C_lexer.l"
 {return INTEGER_LITERAL;}
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 96 "./C_lexer.l"
+#line 99 "./C_lexer.l"
 {return FLOAT_LITERAL;} 
 	YY_BREAK
 case 84:
 YY_RULE_SETUP
-#line 97 "./C_lexer.l"
+#line 100 "./C_lexer.l"
 {return EXP_LITERAL;}
 	YY_BREAK
 case 85:
 /* rule 85 can match eol */
 YY_RULE_SETUP
-#line 99 "./C_lexer.l"
+#line 102 "./C_lexer.l"
 {yylineno++;}
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 100 "./C_lexer.l"
+#line 103 "./C_lexer.l"
 {}
 	YY_BREAK
 case 87:
 YY_RULE_SETUP
-#line 101 "./C_lexer.l"
+#line 104 "./C_lexer.l"
 {yylineno++;}
 	YY_BREAK
 case 88:
 /* rule 88 can match eol */
 YY_RULE_SETUP
-#line 102 "./C_lexer.l"
+#line 105 "./C_lexer.l"
 {}
 	YY_BREAK
 case 89:
 YY_RULE_SETUP
-#line 103 "./C_lexer.l"
+#line 106 "./C_lexer.l"
 {yylineno++;}
 	YY_BREAK
 /*[0-9]+[a-zA-z\_$]+									{
@@ -1326,10 +1329,10 @@ YY_RULE_SETUP
 */
 case 90:
 YY_RULE_SETUP
-#line 111 "./C_lexer.l"
+#line 114 "./C_lexer.l"
 ECHO;
 	YY_BREAK
-#line 1333 "lex.yy.c"
+#line 1336 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2334,7 +2337,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 111 "./C_lexer.l"
+#line 114 "./C_lexer.l"
 
 
 

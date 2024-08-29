@@ -4,52 +4,66 @@
 	#include "lex.yy.c"
 	void yyerror(char*);
 
-	// Symbol table entry
-	// typedef struct Symbol
-	// {
-	// 	char* var;
-	// 	struct Symbol* next;
-	// }Symbol;
+	typedef struct Symbol
+	{
+		char* var;
+		struct Symbol* next;
+	}Symbol;
 
-	// // Head of the symbol table
-	// Symbol *symbol_table=NULL;
+	// Head of the symbol table
+	Symbol *symbol_table=NULL;
 
-	// // Function to lookup a symbol in the symbol table
-	// int lookup(char* lex)
-	// {
-	// 	Symbol* curr=symbol_table;
-	// 	while(curr!=NULL)
-	// 	{
-	// 		if(strcmp(curr->var,lex)==0)
-	// 		{
-	// 			return 1; // found
-	// 		}
-	// 		curr=curr->next;
-	// 	}
-	// 	return 0; // not found
-	// }
+	// Function to lookup a symbol in the symbol table
+	int lookup(char* lex)
+	{
+		Symbol* curr=symbol_table;
+		while(curr!=NULL)
+		{
+			if(strcmp(curr->var,lex)==0)
+			{
+				return 1; // found
+			}
+			curr=curr->next;
+		}
+		return 0; // not found
+	}
 
-	// // Function to insert a symbol into the symbol table
-	// int insert(char* lex)
-	// {
-	// 	Symbol* curr=symbol_table;
-	// 	while(curr!=NULL)
-	// 	{
-	// 		if(strcmp(curr->var,lex)==0)
-	// 		{
-	// 			return 0;		// alreay declared
-	// 		}
-	// 		curr=curr->next;
-	// 	}
+	// Function to insert a symbol into the symbol table
+	int insert(char* lex)
+	{
+		Symbol* curr=symbol_table;
+		while(curr!=NULL)
+		{
+			if(strcmp(curr->var,lex)==0)
+			{
+				return 0;		// alreay declared
+			}
+			curr=curr->next;
+		}
 
-	// 	Symbol* new_sym=(Symbol*)malloc(sizeof(Symbol));
-	// 	new_sym->var=strdup(lex);
-	// 	new_sym->next=symbol_table;
-	// 	symbol_table=new_sym;
-	// 	return 1; // not declared
-	// }
+		Symbol* new_sym=(Symbol*)malloc(sizeof(Symbol));
+		new_sym->var=strdup(lex);
+		new_sym->next=symbol_table;
+		symbol_table=new_sym;
+		return 1; // not declared
+	}
 
 %}
+
+%union{
+	// int ival;
+	// float fval;
+	// double dval;
+	// long lval;
+	// short shval;	
+	// char cval;
+	// unsigned short ushval;
+	// unsigned char ucval;
+	// unsigned int uival;
+	// unsigned long ulval;
+	// char* idTok;
+	char* idval;
+}
 
 %token LPAREN_TOK 
 %token RPAREN_TOK 
@@ -78,7 +92,7 @@
 %token DOUBLE_INVERTED_COMMA
 %token ESCAPE_NOTATION_TOK
 %token MODULO_TOK 
-%token ID_TOK 
+%token <idval> ID_TOK 
 %token GTE_TOK 
 %token LTE_TOK
 %token PLUS_EQUAL_TOK 
@@ -149,23 +163,23 @@ START					:function START
 						|
 						;
 
-structure				:STRUCT_TOK ID_TOK LCURLY_TOK struct_decl RCURLY_TOK ID_TOK SEMI_COLON_TOK
-						|STRUCT_TOK ID_TOK LCURLY_TOK struct_decl RCURLY_TOK SEMI_COLON_TOK
-						|TYPEDEF_TOK STRUCT_TOK ID_TOK LCURLY_TOK struct_decl RCURLY_TOK ID_TOK SEMI_COLON_TOK
-						|UNION_TOK ID_TOK LCURLY_TOK struct_decl RCURLY_TOK ID_TOK SEMI_COLON_TOK
-						|UNION_TOK ID_TOK LCURLY_TOK struct_decl RCURLY_TOK SEMI_COLON_TOK
-						|TYPEDEF_TOK UNION_TOK ID_TOK LCURLY_TOK struct_decl RCURLY_TOK ID_TOK SEMI_COLON_TOK
+structure				:STRUCT_TOK ID_TOK LCURLY_TOK struct_decl RCURLY_TOK ID_TOK SEMI_COLON_TOK {fprintf(yyout,"\nParsed a structure at line no:- %d\n",yylineno);}
+						|STRUCT_TOK ID_TOK LCURLY_TOK struct_decl RCURLY_TOK SEMI_COLON_TOK{fprintf(yyout,"\nParsed a structure at line no:- %d\n",yylineno);}
+						|TYPEDEF_TOK STRUCT_TOK ID_TOK LCURLY_TOK struct_decl RCURLY_TOK ID_TOK SEMI_COLON_TOK{fprintf(yyout,"\nParsed a structure at line no:- %d\n",yylineno);}
+						|UNION_TOK ID_TOK LCURLY_TOK struct_decl RCURLY_TOK ID_TOK SEMI_COLON_TOK{fprintf(yyout,"\nParsed a union at line no:- %d\n",yylineno);}
+						|UNION_TOK ID_TOK LCURLY_TOK struct_decl RCURLY_TOK SEMI_COLON_TOK{fprintf(yyout,"\nParsed a union at line no:- %d\n",yylineno);}
+						|TYPEDEF_TOK UNION_TOK ID_TOK LCURLY_TOK struct_decl RCURLY_TOK ID_TOK SEMI_COLON_TOK{fprintf(yyout,"\nParsed a union at line no:- %d\n",yylineno);}
 						;
 
 struct_decl 			:declaration SEMI_COLON_TOK
 						|declaration SEMI_COLON_TOK struct_decl
 
-function				:datatype MAIN_FUNC_TOK LPAREN_TOK params RPAREN_TOK func_block
-						|datatype ID_TOK LPAREN_TOK params RPAREN_TOK func_block 
-						|qualifier datatype MAIN_FUNC_TOK LPAREN_TOK params RPAREN_TOK func_block
-						|qualifier datatype ID_TOK LPAREN_TOK params RPAREN_TOK func_block
-						|datatype qualifier MAIN_FUNC_TOK LPAREN_TOK params RPAREN_TOK func_block
-						|datatype qualifier ID_TOK LPAREN_TOK params RPAREN_TOK func_block
+function				:datatype MAIN_FUNC_TOK LPAREN_TOK params RPAREN_TOK func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);}
+						|datatype ID_TOK LPAREN_TOK params RPAREN_TOK func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);} 
+						|qualifier datatype MAIN_FUNC_TOK LPAREN_TOK params RPAREN_TOK func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);}
+						|qualifier datatype ID_TOK LPAREN_TOK params RPAREN_TOK func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);}
+						|datatype qualifier MAIN_FUNC_TOK LPAREN_TOK params RPAREN_TOK func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);}
+						|datatype qualifier ID_TOK LPAREN_TOK params RPAREN_TOK func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);}
 						;
 
 func_block				:LCURLY_TOK statements RETURN_TOK data SEMI_COLON_TOK RCURLY_TOK
@@ -192,30 +206,30 @@ statements				:statement statements
 						|
 						;
 
-func_call				:ID_TOK LPAREN_TOK params RPAREN_TOK
+func_call				:ID_TOK LPAREN_TOK params RPAREN_TOK 
 						;
 
-switch_statement		:SWITCH_TOK LPAREN_TOK ID_TOK RPAREN_TOK LCURLY_TOK case_statements RCURLY_TOK 
+switch_statement		:SWITCH_TOK LPAREN_TOK ID_TOK RPAREN_TOK LCURLY_TOK case_statements RCURLY_TOK {fprintf(yyout,"\nParsed a switch block at line no:- %d\n",yylineno);}
 						;
 
 case_statements			:case_statement case_statements
 						|case_statement
 						;
 
-case_statement			:CASE_TOK data COLON_TOK statements BREAK_TOK SEMI_COLON_TOK
-						|DEFAULT_TOK COLON_TOK statements BREAK_TOK SEMI_COLON_TOK
-						|CASE_TOK data COLON_TOK statements
-						|DEFAULT_TOK COLON_TOK statements 
+case_statement			:CASE_TOK data COLON_TOK statements BREAK_TOK SEMI_COLON_TOK {fprintf(yyout,"\nParsed a case statement at line no:- %d\n",yylineno);}
+						|DEFAULT_TOK COLON_TOK statements BREAK_TOK SEMI_COLON_TOK {fprintf(yyout,"\nParsed a case statement at line no:- %d\n",yylineno);}
+						|CASE_TOK data COLON_TOK statements {fprintf(yyout,"\nParsed a case statement at line no:- %d\n",yylineno);}
+						|DEFAULT_TOK COLON_TOK statements {fprintf(yyout,"\nParsed a case statement at line no:- %d\n",yylineno);}
 						;
 
-iterative_statement		:FOR_TOK LPAREN_TOK initialization SEMI_COLON_TOK conditional_expression SEMI_COLON_TOK initialization RPAREN_TOK block
-						|WHILE_TOK LPAREN_TOK conditional_expression RPAREN_TOK block 
-						|DO_TOK block WHILE_TOK LPAREN_TOK conditional_expression RPAREN_TOK SEMI_COLON_TOK
+iterative_statement		:FOR_TOK LPAREN_TOK initialization SEMI_COLON_TOK conditional_expression SEMI_COLON_TOK initialization RPAREN_TOK block {fprintf(yyout,"\nParsed a for loop at line no:- %d\n",yylineno);}
+						|WHILE_TOK LPAREN_TOK conditional_expression RPAREN_TOK block {fprintf(yyout,"\nParsed a while loop at line no:- %d\n",yylineno);}
+						|DO_TOK block WHILE_TOK LPAREN_TOK conditional_expression RPAREN_TOK SEMI_COLON_TOK {fprintf(yyout,"\nParsed a do while at line no:- %d\n",yylineno);}
 						;
 
-conditional_statement	:IF_TOK LPAREN_TOK expression RPAREN_TOK block
-						|IF_TOK LPAREN_TOK expression RPAREN_TOK block ELSE_TOK block
-						|IF_TOK	LPAREN_TOK expression RPAREN_TOK block ELSE_TOK conditional_statement
+conditional_statement	:IF_TOK LPAREN_TOK expression RPAREN_TOK block {fprintf(yyout,"\nParsed an if statement at line no:- %d\n",yylineno);}
+						|IF_TOK LPAREN_TOK expression RPAREN_TOK block ELSE_TOK block {fprintf(yyout,"\nParsed an if else statement at line no:- %d\n",yylineno);}
+						|IF_TOK	LPAREN_TOK expression RPAREN_TOK block ELSE_TOK conditional_statement {fprintf(yyout,"\nParsed an if else statement at line no:- %d\n",yylineno);}
 						;
 
 conditional_expression	:logical_expression
@@ -225,7 +239,7 @@ conditional_expression	:logical_expression
 						|NOT_TOK conditional_expression
 						;
 
-ternary_expression		:conditional_expression QUESTION_MARK_TOK expression COLON_TOK expression
+ternary_expression		:conditional_expression QUESTION_MARK_TOK expression COLON_TOK expression {fprintf(yyout,"\nParsed a ternary expression at line no:- %d\n",yylineno);}
 						;
 
 statement				:declarations SEMI_COLON_TOK
@@ -261,44 +275,148 @@ expression				:arithmetic_expression
 						|LPAREN_TOK expression RPAREN_TOK
 						;
 
-logical_expression		:data logical_operator data
-						|LPAREN_TOK logical_expression RPAREN_TOK
-						|NOT_TOK ID_TOK
-						|NOT_TOK LPAREN_TOK ID_TOK RPAREN_TOK
-						|LPAREN_TOK data RPAREN_TOK
+logical_expression		:data logical_operator data {fprintf(yyout,"\nParsed a logical expression at line no:- %d\n",yylineno);}
+						|LPAREN_TOK logical_expression RPAREN_TOK{fprintf(yyout,"\nParsed a logical expression at line no:- %d\n",yylineno);}
+						|NOT_TOK ID_TOK{fprintf(yyout,"\nParsed a logical expression at line no:- %d\n",yylineno);}
+						|NOT_TOK LPAREN_TOK ID_TOK RPAREN_TOK{fprintf(yyout,"\nParsed a logical expression at line no:- %d\n",yylineno);}
+						|LPAREN_TOK data RPAREN_TOK{fprintf(yyout,"\nParsed a logical expression at line no:- %d\n",yylineno);}
 						;
 
-arithmetic_expression	:data num_operator data
-						|LPAREN_TOK arithmetic_expression RPAREN_TOK
-						|data
+arithmetic_expression	:data num_operator data{fprintf(yyout,"\nParsed an arithmetic expression at line no:- %d\n",yylineno);}
+						|LPAREN_TOK arithmetic_expression RPAREN_TOK{fprintf(yyout,"\nParsed an arithmetic expression at line no:- %d\n",yylineno);}
+						|data{fprintf(yyout,"\nParsed an arithmetic expression at line no:- %d\n",yylineno);}
 						;
 
 
-relational_expression	:data relational_operator data
-						|LPAREN_TOK relational_expression RPAREN_TOK
-						|LPAREN_TOK data RPAREN_TOK
+relational_expression	:data relational_operator data{fprintf(yyout,"\nParsed a relational expression at line no:- %d\n",yylineno);}
+						|LPAREN_TOK relational_expression RPAREN_TOK{fprintf(yyout,"\nParsed a relational expression at line no:- %d\n",yylineno);}
+						|LPAREN_TOK data RPAREN_TOK{fprintf(yyout,"\nParsed a relational expression at line no:- %d\n",yylineno);}
 						;
 
 data_t					:ID_TOK
+						{
+							if(!lookup($1))
+							{
+								fprintf(yyout,"\n%s was not declared previously\n",$1);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						|datatype
 
 data					:number_literal
 						|ID_TOK
+						{
+							if(!lookup($1))
+							{
+								fprintf(yyout,"\n%s was not declared previously\n",$1);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						|AND_TOK ID_TOK
+						{
+							if(!lookup($2))
+							{
+								fprintf(yyout,"\n%s was not declared previously\n",$2);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						|SIZEOF_TOK LPAREN_TOK data_t RPAREN_TOK
 						;
 
-declarations 			:declaration COMMA_TOK declarations
+declarations 			:declaration declarations
 						|declaration
-						|
 						;
 
-declaration				:storage_class datatype qualifier ID_TOK
+declaration				:storage_class datatype qualifier ID_TOK 
+						{
+							if(!lookup($4))
+							{	
+								insert($4);
+							}
+							else
+							{
+								fprintf(yyout,"\n%s is already declared previously\n",$4);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						|storage_class qualifier datatype ID_TOK
+						{
+							if(!lookup($4))
+							{	
+								insert($4);
+							}
+							else
+							{
+								fprintf(yyout,"\n%s is already declared previously\n",$4);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						|qualifier datatype ID_TOK
+						{
+							if(!lookup($3))
+							{	
+								insert($3);
+							}
+							else
+							{
+								fprintf(yyout,"\n%s is already declared previously\n",$3);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						|datatype qualifier ID_TOK
+						{
+							if(!lookup($3))
+							{	
+								insert($3);
+							}
+							else
+							{
+								fprintf(yyout,"\n%s is already declared previously\n",$3);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
+						|COMMA_TOK ID_TOK
+						{
+							if(!lookup($2))
+							{
+								insert($2);
+							}
+							else
+							{
+								fprintf(yyout,"\n%s is already declared previously\n",$2);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						|datatype ID_TOK
+						{
+							if(!lookup($2))
+							{	
+								insert($2);
+							}
+							else
+							{
+								fprintf(yyout,"\n%s is already declared previously\n",$2);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						|ID_TOK
+						{
+							if(!lookup($1))
+							{
+								fprintf(yyout,"\n%s has not been declared previously\n",$1);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						|datatype array_data
 						|datatype qualifier array_data
 						|qualifier datatype array_data
@@ -307,6 +425,18 @@ declaration				:storage_class datatype qualifier ID_TOK
 						;
 
 array_data				:ID_TOK brackets
+						{
+							if(!lookup($1))
+							{
+								insert($1);
+							}
+							else
+							{								
+								fprintf(yyout,"\n%s is already declared previously\n",$1);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						;
 
 brackets				:bracket brackets
@@ -328,13 +458,86 @@ initialization			:declaration assignment_operator data
 						|declaration assignment_operator expression
 						|declaration assignment_operator func_call
 						|ID_TOK assignment_operator func_call
+						{
+							if(!lookup($1))
+							{
+								fprintf(yyout,"\n%s has not been declared earlier\n",$1);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						|ID_TOK assignment_operator data 
+						{
+							if(!lookup($1))
+							{
+								fprintf(yyout,"\n%s has not been declared earlier\n",$1);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						|ID_TOK assignment_operator LPAREN_TOK expression RPAREN_TOK
+						{
+							if(!lookup($1))
+							{
+								fprintf(yyout,"\n%s has not been declared earlier\n",$1);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						|ID_TOK assignment_operator expression
+						{
+							if(!lookup($1))
+							{
+								fprintf(yyout,"\n%s has not been declared earlier\n",$1);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						|ID_TOK PLUS_PLUS_TOK
+						{
+							if(!lookup($1))
+							{
+								fprintf(yyout,"\n%s has not been declared earlier\n",$1);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						|ID_TOK MINUS_MINUS_TOK
+						{
+							if(!lookup($1))
+							{
+								fprintf(yyout,"\n%s has not been declared earlier\n",$1);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						|PLUS_PLUS_TOK ID_TOK
+						{
+							if(!lookup($2))
+							{
+								fprintf(yyout,"\n%s has not been declared earlier\n",$2);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						|MINUS_MINUS_TOK ID_TOK
+						{
+							if(!lookup($2))
+							{
+								fprintf(yyout,"\n%s has not been declared earlier\n",$2);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
+						|ID_TOK brackets
+						{
+							if(!lookup($1))
+							{
+								fprintf(yyout,"\n%s has not been declared earlier\n",$1);
+								yyerror("Syntax Error");
+								exit(EXIT_FAILURE);
+							}
+						}
 						;
 
 datatype				:INT_TOK
@@ -422,14 +625,15 @@ void yyerror(char* yyErrorText)
 int main(int argc,char* argv[])
 {
 	yylineno=0;
-	if(argc!=2)
+	if(argc!=3)
 	{
-		fprintf(stderr,"Usage:- %s <input_source_code_file>\n",argv[0]);
+		fprintf(stderr,"Usage:- %s <input_source_code_file> <result_file>\n",argv[0]);
 		exit(EXIT_FAILURE);
 	}
 
 	yyin=fopen(argv[1],"r");
-	if(yyin==NULL)
+	yyout=fopen(argv[2],"w");
+	if(yyin==NULL||yyout==NULL)
 	{
 		fprintf(stderr,"fopen() error\n");
 		exit(EXIT_FAILURE);
@@ -437,11 +641,11 @@ int main(int argc,char* argv[])
 
 	if(yyparse()==0)
 	{
-		printf("\nProgram successfully parsed\n");
+		fprintf(yyout,"\nProgram successfully parsed!!!\n");
 	}
 	else
 	{
-		printf("Parsing error at line number %d\n",yylineno);
+		fprintf(yyout,"Parsing error at line number %d\n",yylineno);
 	}
 	return 0;
 }

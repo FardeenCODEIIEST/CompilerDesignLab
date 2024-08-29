@@ -6,9 +6,10 @@ typedef union person
     int income;
 } person;
 
-int add(int a, int b)
+int *add(int a, int b)
 {
-    return a + b;
+    int c = a + b;
+    return &c;
 }
 
 void hello()
@@ -52,7 +53,14 @@ int main(int argc, char **argv)
 
     int debt = (num1 + num2) * (num1 + sum) * ((num1 / sum) - (num2 / sum));
 
-    for (int i = 0; i < 10; i++)
+    int i = 0;
+
+    while (i < 10)
+    {
+        i++;
+    }
+
+    for (i = 0; i < 10; i++)
     {
         if (i % 2 == 0)
         {

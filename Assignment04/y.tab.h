@@ -233,7 +233,27 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+union YYSTYPE
+{
+#line 53 "./C_parser.y"
+
+	// int ival;
+	// float fval;
+	// double dval;
+	// long lval;
+	// short shval;	
+	// char cval;
+	// unsigned short ushval;
+	// unsigned char ucval;
+	// unsigned int uival;
+	// unsigned long ulval;
+	// char* idTok;
+	char* idval;
+
+#line 254 "y.tab.h"
+
+};
+typedef union YYSTYPE YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
