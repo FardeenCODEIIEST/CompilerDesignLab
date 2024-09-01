@@ -4,71 +4,75 @@ Parsed a union at line no:- 7
 Parsed an arithmetic expression at line no:- 11
      
 Parsed a function at line no:- 13
+                             
+Parsed an enum declaration at line no:- 24
      
-Parsed a function at line no:- 18
+Parsed a function at line no:- 29
      
-Parsed an arithmetic expression at line no:- 20
-                           
-Parsed an arithmetic expression at line no:- 29
-                  
-Parsed an arithmetic expression at line no:- 35
-        
-Parsed an arithmetic expression at line no:- 37
-         
-Parsed a relational expression at line no:- 39
-   
-Parsed an arithmetic expression at line no:- 39
- 
-Parsed an arithmetic expression at line no:- 39
-
-Parsed a ternary expression at line no:- 39
-                          
-Parsed a case statement at line no:- 45
-                     
-Parsed a case statement at line no:- 48
-            
-Parsed a case statement at line no:- 50
-
-Parsed a switch block at line no:- 50
-                 
-Parsed an arithmetic expression at line no:- 54
-
-Parsed an arithmetic expression at line no:- 54
-    
-Parsed an arithmetic expression at line no:- 54
-
-Parsed an arithmetic expression at line no:- 54
-    
-Parsed an arithmetic expression at line no:- 54
-
-Parsed an arithmetic expression at line no:- 54
-    
-Parsed an arithmetic expression at line no:- 54
-
-Parsed an arithmetic expression at line no:- 54
-       
-Parsed an arithmetic expression at line no:- 56
-       
-Parsed a relational expression at line no:- 58
-                
-Parsed a while loop at line no:- 61
-       
-Parsed an arithmetic expression at line no:- 63
-   
-Parsed a relational expression at line no:- 63
-                
-Parsed an arithmetic expression at line no:- 65
-  
-Parsed an arithmetic expression at line no:- 65
-                                    
-Parsed an if statement at line no:- 69
-   
-Parsed a relational expression at line no:- 69
-                                    
-Parsed an if statement at line no:- 73
-     
-Parsed a for loop at line no:- 74
+Parsed an arithmetic expression at line no:- 31
           
-Parsed a function at line no:- 79
+Parsed an enum initialisation at line no:- 35
+                       
+Parsed an arithmetic expression at line no:- 41
+                  
+Parsed an arithmetic expression at line no:- 47
+        
+Parsed an arithmetic expression at line no:- 49
+         
+Parsed a relational expression at line no:- 51
+   
+Parsed an arithmetic expression at line no:- 51
+ 
+Parsed an arithmetic expression at line no:- 51
+
+Parsed a ternary expression at line no:- 51
+                          
+Parsed a case statement at line no:- 57
+                     
+Parsed a case statement at line no:- 60
+            
+Parsed a case statement at line no:- 62
+
+Parsed a switch block at line no:- 62
+                 
+Parsed an arithmetic expression at line no:- 66
+
+Parsed an arithmetic expression at line no:- 66
+    
+Parsed an arithmetic expression at line no:- 66
+
+Parsed an arithmetic expression at line no:- 66
+    
+Parsed an arithmetic expression at line no:- 66
+
+Parsed an arithmetic expression at line no:- 66
+    
+Parsed an arithmetic expression at line no:- 66
+
+Parsed an arithmetic expression at line no:- 66
+       
+Parsed an arithmetic expression at line no:- 68
+       
+Parsed a relational expression at line no:- 70
+                
+Parsed a while loop at line no:- 73
+       
+Parsed an arithmetic expression at line no:- 75
+   
+Parsed a relational expression at line no:- 75
+                
+Parsed an arithmetic expression at line no:- 77
+  
+Parsed an arithmetic expression at line no:- 77
+                                    
+Parsed an if statement at line no:- 81
+   
+Parsed a relational expression at line no:- 81
+                                    
+Parsed an if statement at line no:- 85
+     
+Parsed a for loop at line no:- 86
+          
+Parsed a function at line no:- 91
 
 Program successfully parsed!!!

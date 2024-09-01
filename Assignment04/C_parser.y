@@ -163,6 +163,17 @@ START					:function START
 						|
 						;
 
+enum_const				:ID_TOK COMMA_TOK enum_const
+						|ID_TOK
+						;
+
+
+enum_decl				:ENUM_TOK ID_TOK LCURLY_TOK enum_const RCURLY_TOK SEMI_COLON_TOK{fprintf(yyout,"\nParsed an enum declaration at line no:- %d\n",yylineno);}
+						;
+
+enum_init				:ENUM_TOK ID_TOK ID_TOK SEMI_COLON_TOK{fprintf(yyout,"\nParsed an enum initialisation at line no:- %d\n",yylineno);}
+						;
+
 structure				:STRUCT_TOK ID_TOK LCURLY_TOK struct_decl RCURLY_TOK ID_TOK SEMI_COLON_TOK {fprintf(yyout,"\nParsed a structure at line no:- %d\n",yylineno);}
 						|STRUCT_TOK ID_TOK LCURLY_TOK struct_decl RCURLY_TOK SEMI_COLON_TOK{fprintf(yyout,"\nParsed a structure at line no:- %d\n",yylineno);}
 						|TYPEDEF_TOK STRUCT_TOK ID_TOK LCURLY_TOK struct_decl RCURLY_TOK ID_TOK SEMI_COLON_TOK{fprintf(yyout,"\nParsed a structure at line no:- %d\n",yylineno);}
@@ -245,6 +256,8 @@ ternary_expression		:conditional_expression QUESTION_MARK_TOK expression COLON_T
 statement				:declarations SEMI_COLON_TOK
 						|initializations SEMI_COLON_TOK
 						|SEMI_COLON_TOK
+						|enum_decl
+						|enum_init
 						|BREAK_TOK SEMI_COLON_TOK
 						|CONTINUE_TOK SEMI_COLON_TOK
 						;
@@ -605,6 +618,10 @@ assignment_operator		:PLUS_EQUAL_TOK
 						|EQUAL_TOK
 						;
 					
+
+/* constants				:number_literal
+						|other_literal
+						; */
 
 number_literal			:INTEGER_LITERAL
 						|FLOAT_LITERAL

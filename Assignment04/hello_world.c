@@ -12,6 +12,17 @@ int *add(int a, int b)
     return &c;
 }
 
+enum week
+{
+    MONDAY,
+    TUESDAY,
+    WDNESDAY,
+    THURSDAY,
+    FRIDAY,
+    SATURDAY,
+    SUNDAY
+};
+
 void hello()
 {
     printf("Hello there!!!\n");
@@ -21,6 +32,7 @@ int global_a = 1e9 + 7;
 
 int main(int argc, char **argv)
 {
+    enum week day;
 
     int num1, num2;
     scanf("%d", &num1);
