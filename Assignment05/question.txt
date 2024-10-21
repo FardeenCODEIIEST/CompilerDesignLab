@@ -1,0 +1,6 @@
+Assignment on Symbol Table Management:--
+
+Consider the assumptions for the language previously considered in last lab sessions. Variables of data types allowed in the subset can be defined at the very beginning of any function / block. A variable must be defined before it is used. Using YACC, define the grammar rules and associated set of actions for the following.
+
+
+a) Find the data type for each newly created variable and create symbol table by adding the data type and scope information for each declared variable.
