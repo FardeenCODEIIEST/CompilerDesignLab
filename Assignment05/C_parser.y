@@ -144,31 +144,52 @@ structure				:STRUCT_TOK ID_TOK LCURLY_TOK struct_decl RCURLY_TOK ID_TOK SEMI_CO
 struct_decl 			:declaration SEMI_COLON_TOK
 						|declaration SEMI_COLON_TOK struct_decl
 
-function				:datatype MAIN_FUNC_TOK LPAREN_TOK{scope++;} params RPAREN_TOK{hashMapRemoveScope(map,scope);scope--;} func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);}
-						|datatype ID_TOK LPAREN_TOK{scope++;} params RPAREN_TOK{hashMapRemoveScope(map,scope);scope--;} func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);} 
-						|qualifier datatype MAIN_FUNC_TOK LPAREN_TOK{scope++;} params RPAREN_TOK{hashMapRemoveScope(map,scope);scope--;} func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);}
-						|qualifier datatype ID_TOK LPAREN_TOK{scope++;} params RPAREN_TOK{hashMapRemoveScope(map,scope);scope--;} func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);}
-						|datatype qualifier MAIN_FUNC_TOK LPAREN_TOK{scope++;} params RPAREN_TOK{hashMapRemoveScope(map,scope);scope--;} func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);}
-						|datatype qualifier ID_TOK LPAREN_TOK{scope++;} params RPAREN_TOK{hashMapRemoveScope(map,scope);scope--;} func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);}
+function				:datatype MAIN_FUNC_TOK LPAREN_TOK{scope++;} params RPAREN_TOK func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);}
+						|datatype ID_TOK LPAREN_TOK{scope++;} params RPAREN_TOK func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);} 
+						|qualifier datatype MAIN_FUNC_TOK LPAREN_TOK{scope++;} params RPAREN_TOK func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);}
+						|qualifier datatype ID_TOK LPAREN_TOK{scope++;} params RPAREN_TOK func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);}
+						|datatype qualifier MAIN_FUNC_TOK LPAREN_TOK{scope++;} params RPAREN_TOK func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);}
+						|datatype qualifier ID_TOK LPAREN_TOK{scope++;} params RPAREN_TOK func_block{fprintf(yyout,"\nParsed a function at line no:- %d\n",yylineno);}
 						;
 
-func_block				:LCURLY_TOK{scope++;} statements block  RETURN_TOK data SEMI_COLON_TOK RCURLY_TOK{hashMapRemoveScope(map,scope);scope--;}
-						|LCURLY_TOK{scope++;} statements block RETURN_TOK SEMI_COLON_TOK RCURLY_TOK{hashMapRemoveScope(map,scope);scope--;}
-						|LCURLY_TOK{scope++;} statements block  RETURN_TOK expression SEMI_COLON_TOK RCURLY_TOK{hashMapRemoveScope(map,scope);scope--;}
-						|LCURLY_TOK{scope++;} statements block  RCURLY_TOK{hashMapRemoveScope(map,scope);scope--;}
-						|LCURLY_TOK RCURLY_TOK
-						|SEMI_COLON_TOK
-						;
+func_block               :LCURLY_TOK { 
+                            scope++; 
+                        } block_statements RETURN_TOK data SEMI_COLON_TOK RCURLY_TOK {
+                            hashMapRemoveScope(map, scope);
+                            scope--;
+                            fprintf(yyout,"\nParsed a function block with return at line no: %d\n",yylineno);
+                        }
+                        |LCURLY_TOK {
+                            scope++;
+                        } block_statements RETURN_TOK SEMI_COLON_TOK RCURLY_TOK {
+                            hashMapRemoveScope(map, scope);
+                            scope--;
+                            fprintf(yyout,"\nParsed a void function block at line no: %d\n",yylineno);
+                        }
+                        |LCURLY_TOK {
+                            scope++;
+                        } block_statements RCURLY_TOK {
+                            hashMapRemoveScope(map, scope);
+                            scope--;
+                            fprintf(yyout,"\nParsed an empty function block at line no: %d\n",yylineno);
+                        }
+                        |SEMI_COLON_TOK
+                        ;
+
 /* 
 blocks					:block blocks 
 						|
 						; */
 
-block					:LCURLY_TOK{scope++;} statements block RCURLY_TOK{hashMapRemoveScope(map,scope);scope--;}
-						|SEMI_COLON_TOK
-						|block statements block
-						|
-						;
+
+block                   :LCURLY_TOK {
+                            scope++;
+                        } block_statements RCURLY_TOK {
+                            hashMapRemoveScope(map, scope);
+                            scope--;
+                        }
+                        |statement
+                        ;
 
 statements				:statement statements
 						|conditional_statement statements 
@@ -202,15 +223,41 @@ case_statement			:CASE_TOK data COLON_TOK statements BREAK_TOK SEMI_COLON_TOK {f
 						|DEFAULT_TOK COLON_TOK statements {fprintf(yyout,"\nParsed a case statement at line no:- %d\n",yylineno);}
 						;
 
-iterative_statement		:FOR_TOK LPAREN_TOK{scope++;} initialization SEMI_COLON_TOK conditional_expression SEMI_COLON_TOK initialization RPAREN_TOK{scope--;} block {fprintf(yyout,"\nParsed a for loop at line no:- %d\n",yylineno);}
-						|WHILE_TOK LPAREN_TOK conditional_expression RPAREN_TOK block {fprintf(yyout,"\nParsed a while loop at line no:- %d\n",yylineno);}
-						|DO_TOK block WHILE_TOK LPAREN_TOK conditional_expression RPAREN_TOK SEMI_COLON_TOK {fprintf(yyout,"\nParsed a do while at line no:- %d\n",yylineno);}
-						;
+block_statements        :statement block_statements
+                        |conditional_statement block_statements
+                        |iterative_statement block_statements
+                        |func_call block_statements
+                        |switch_statement block_statements
+                        |
+                        ;
 
-conditional_statement	:IF_TOK LPAREN_TOK expression RPAREN_TOK block {fprintf(yyout,"\nParsed an if statement at line no:- %d\n",yylineno);}
-						|IF_TOK LPAREN_TOK expression RPAREN_TOK block ELSE_TOK block {fprintf(yyout,"\nParsed an if else statement at line no:- %d\n",yylineno);}
-						|IF_TOK	LPAREN_TOK expression RPAREN_TOK block ELSE_TOK conditional_statement {fprintf(yyout,"\nParsed an if else statement at line no:- %d\n",yylineno);}
-						;
+iterative_statement     :FOR_TOK LPAREN_TOK initialization SEMI_COLON_TOK 
+                         conditional_expression SEMI_COLON_TOK initialization 
+                         RPAREN_TOK block {
+                            fprintf(yyout,"\nParsed a for loop at line no: %d\n",yylineno);
+                        }
+                        |WHILE_TOK LPAREN_TOK conditional_expression RPAREN_TOK 
+                         block {
+                            fprintf(yyout,"\nParsed a while loop at line no: %d\n",yylineno);
+                        }
+                        |DO_TOK block WHILE_TOK LPAREN_TOK conditional_expression 
+                         RPAREN_TOK SEMI_COLON_TOK {
+                            fprintf(yyout,"\nParsed a do-while loop at line no: %d\n",yylineno);
+                        }
+                        ;
+
+conditional_statement   :IF_TOK LPAREN_TOK expression RPAREN_TOK block {
+                            fprintf(yyout,"\nParsed an if statement at line no: %d\n",yylineno);
+                        }
+                        |IF_TOK LPAREN_TOK expression RPAREN_TOK block 
+                         ELSE_TOK block {
+                            fprintf(yyout,"\nParsed an if-else statement at line no: %d\n",yylineno);
+                        }
+                        |IF_TOK LPAREN_TOK expression RPAREN_TOK block 
+                         ELSE_TOK conditional_statement {
+                            fprintf(yyout,"\nParsed an else-if statement at line no: %d\n",yylineno);
+                        }
+                        ;
 
 conditional_expression	:logical_expression
 						|relational_expression
@@ -222,14 +269,14 @@ conditional_expression	:logical_expression
 ternary_expression		:conditional_expression QUESTION_MARK_TOK expression COLON_TOK expression {fprintf(yyout,"\nParsed a ternary expression at line no:- %d\n",yylineno);}
 						;
 
-statement				:declarations SEMI_COLON_TOK
-						|initializations SEMI_COLON_TOK
-						|SEMI_COLON_TOK
-						|enum_decl
-						|enum_init
-						|BREAK_TOK SEMI_COLON_TOK
-						|CONTINUE_TOK SEMI_COLON_TOK
-						;
+statement               :declarations SEMI_COLON_TOK
+                        |initializations SEMI_COLON_TOK
+                        |SEMI_COLON_TOK
+                        |enum_decl
+                        |enum_init
+                        |BREAK_TOK SEMI_COLON_TOK
+                        |CONTINUE_TOK SEMI_COLON_TOK
+                        ;
 
 param					:data
 						|AND_TOK ID_TOK
@@ -288,33 +335,28 @@ declarations 			:declaration declarations
 						|declaration
 						;
 
-declaration				:storage_class datatype qualifier ID_TOK 
-						|storage_class qualifier datatype ID_TOK
-						|qualifier datatype ID_TOK
-						|datatype qualifier ID_TOK
-						|COMMA_TOK ID_TOK
-						|datatype ID_TOK
-						{
-							if(hashMapIsPresent(map,$2))
-							{	
-								fprintf(yyout,"Variable %s is already declared\n",$2);
-								exit(EXIT_FAILURE);
-							}
-							else
-							{
-								// printf("\n%s",type);
-								// printf("\n%s",$2);
-								hashMapInsert(map,scope,type,$2);
-								fprintf(yyout,"\nVariable %s of type %s with scope %d has been signified\n",$2,type,scope);
-							}
-						}
-						|ID_TOK
-						|datatype array_data
-						|datatype qualifier array_data
-						|qualifier datatype array_data
-						|storage_class qualifier datatype array_data
-						|storage_class datatype qualifier array_data
-						;
+declaration             :storage_class datatype qualifier ID_TOK
+                        |storage_class qualifier datatype ID_TOK
+                        |qualifier datatype ID_TOK
+                        |datatype qualifier ID_TOK
+                        |COMMA_TOK ID_TOK
+                        |datatype ID_TOK {
+                            if(hashMapIsPresent(map, $2)) {
+                                fprintf(yyout,"Variable %s is already declared\n", $2);
+                                exit(EXIT_FAILURE);
+                            } else {
+                                hashMapInsert(map, scope, type, $2);
+                                fprintf(yyout,"\nVariable %s of type %s with scope %d has been declared\n",
+                                        $2, type, scope);
+                            }
+                        }
+                        |ID_TOK
+                        |datatype array_data
+                        |datatype qualifier array_data
+                        |qualifier datatype array_data
+                        |storage_class qualifier datatype array_data
+                        |storage_class datatype qualifier array_data
+                        ;
 
 array_data				:ID_TOK brackets
 						;
@@ -338,13 +380,69 @@ initialization			:declaration assignment_operator data
 						|declaration assignment_operator expression
 						|declaration assignment_operator func_call
 						|ID_TOK assignment_operator func_call
+						{
+							if(!hashMapIsPresent(map,$1))
+							{
+								fprintf(yyout,"Variable %s is not declared\n",$1);
+								exit(EXIT_FAILURE);
+							}
+						}
 						|ID_TOK assignment_operator data 
+						{
+							if(!hashMapIsPresent(map,$1))
+							{
+								fprintf(yyout,"Variable %s is not declared\n",$1);
+								exit(EXIT_FAILURE);
+							}
+						}
 						|ID_TOK assignment_operator LPAREN_TOK expression RPAREN_TOK
+						{
+							if(!hashMapIsPresent(map,$1))
+							{
+								fprintf(yyout,"Variable %s is not declared\n",$1);
+								exit(EXIT_FAILURE);
+							}
+						}
 						|ID_TOK assignment_operator expression
+						{
+							if(!hashMapIsPresent(map,$1))
+							{
+								fprintf(yyout,"Variable %s is not declared\n",$1);
+								exit(EXIT_FAILURE);
+							}
+						}
 						|ID_TOK PLUS_PLUS_TOK
+						{
+							if(!hashMapIsPresent(map,$1))
+							{
+								fprintf(yyout,"Variable %s is not declared\n",$1);
+								exit(EXIT_FAILURE);
+							}
+						}
 						|ID_TOK MINUS_MINUS_TOK
+						{
+							if(!hashMapIsPresent(map,$1))
+							{
+								fprintf(yyout,"Variable %s is not declared\n",$1);
+								exit(EXIT_FAILURE);
+							}
+						}
 						|PLUS_PLUS_TOK ID_TOK
+						{
+							if(!hashMapIsPresent(map,$2))
+							{
+								fprintf(yyout,"Variable %s is not declared\n",$2);
+								exit(EXIT_FAILURE);
+							}
+						}
 						|MINUS_MINUS_TOK ID_TOK
+						{
+							if(!hashMapIsPresent(map,$2))
+							{
+								fprintf(yyout,"Variable %s is not declared\n",$2);
+								exit(EXIT_FAILURE);
+							}
+						}
 						|ID_TOK brackets
 						;
 

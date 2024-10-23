@@ -4,8 +4,19 @@ int c = 10;
 
 int main(int argc, char argv)
 {
+    argc++;
     int a = 10;
     int b = 20;
+
+    for (int i = 0; i < 10; i++)
+    {
+        i--;
+    }
+
+    while (a < 1000)
+    {
+        a = a + b;
+    }
 
     switch (b)
     {
@@ -19,23 +30,6 @@ int main(int argc, char argv)
         printf("This is not one or two\n");
         break;
     }
-
-    {
-        int k = 10;
-        int p = 10;
-    }
-
-    unsigned int l = 10;
-
-    {
-        int k = 10;
-        {
-            int lmp = 90;
-        }
-        int p = 10;
-    }
-
-    int lmp = 100;
 
     return 0;
 }

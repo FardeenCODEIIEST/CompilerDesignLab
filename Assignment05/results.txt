@@ -1,56 +1,29 @@
   
-Variable c of type int with scope 0 has been signified
+Variable c of type int with scope 0 has been declared
  
 Parsed an arithmetic expression at line no:- 3
   
-Variable argc of type int with scope 1 has been signified
+Variable argc of type int with scope 1 has been declared
   
-Variable argv of type char with scope 1 has been signified
-      
-Variable a of type int with scope 1 has been signified
- 
-Parsed an arithmetic expression at line no:- 7
-      
-Variable b of type int with scope 1 has been signified
+Variable argv of type char with scope 1 has been declared
+          
+Variable a of type int with scope 2 has been declared
  
 Parsed an arithmetic expression at line no:- 8
-                                  
-Parsed a case statement at line no:- 15
-                     
-Parsed a case statement at line no:- 18
-                    
-Parsed a case statement at line no:- 21
-
-Parsed a switch block at line no:- 21
-              
-Variable k of type int with scope 2 has been signified
+      
+Variable b of type int with scope 2 has been declared
  
-Parsed an arithmetic expression at line no:- 24
-          
-Variable p of type int with scope 2 has been signified
+Parsed an arithmetic expression at line no:- 9
+       
+Variable i of type int with scope 2 has been declared
  
-Parsed an arithmetic expression at line no:- 25
-           
-Variable l of type unsigned int with scope 1 has been signified
- 
-Parsed an arithmetic expression at line no:- 28
-              
-Variable k of type int with scope 2 has been signified
- 
-Parsed an arithmetic expression at line no:- 31
-                      
-Variable lmp of type int with scope 3 has been signified
- 
-Parsed an arithmetic expression at line no:- 33
-                  
-Variable p of type int with scope 2 has been signified
- 
-Parsed an arithmetic expression at line no:- 35
-          
-Variable lmp of type int with scope 1 has been signified
- 
-Parsed an arithmetic expression at line no:- 38
-     
-Parsed a function at line no:- 41
-
-Program successfully parsed!!!
+Parsed an arithmetic expression at line no:- 11
+   
+Parsed a relational expression at line no:- 11
+                 
+Parsed a for loop at line no: 14
+       
+Parsed a relational expression at line no:- 16
+                
+Parsed an arithmetic expression at line no:- 18
+Variable f is not declared
