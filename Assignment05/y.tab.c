@@ -886,16 +886,16 @@ static const yytype_int16 yyrline[] =
      276,   277,   278,   281,   282,   283,   284,   285,   286,   289,
      290,   291,   294,   295,   296,   297,   298,   299,   300,   301,
      302,   303,   304,   307,   308,   309,   310,   311,   314,   315,
-     316,   320,   321,   322,   325,   326,   328,   329,   330,   331,
-     334,   335,   338,   339,   340,   341,   342,   343,   353,   354,
-     355,   356,   357,   358,   361,   364,   365,   368,   369,   370,
-     373,   374,   375,   378,   379,   380,   381,   382,   390,   398,
-     406,   414,   422,   430,   438,   446,   449,   450,   451,   452,
-     453,   454,   455,   456,   457,   458,   459,   460,   461,   462,
-     463,   464,   467,   468,   469,   470,   473,   474,   478,   479,
-     480,   481,   482,   483,   484,   485,   486,   487,   491,   492,
-     493,   494,   495,   496,   499,   500,   503,   504,   505,   506,
-     507,   508,   509,   510,   511,   519,   520,   521,   524,   525
+     316,   320,   321,   322,   325,   326,   328,   329,   337,   338,
+     341,   342,   345,   346,   347,   348,   349,   350,   360,   361,
+     362,   363,   364,   365,   368,   371,   372,   375,   376,   377,
+     380,   381,   382,   385,   386,   387,   388,   389,   397,   405,
+     413,   421,   429,   437,   445,   453,   456,   457,   458,   459,
+     460,   461,   462,   463,   464,   465,   466,   467,   468,   469,
+     470,   471,   474,   475,   476,   477,   480,   481,   485,   486,
+     487,   488,   489,   490,   491,   492,   493,   494,   498,   499,
+     500,   501,   502,   503,   506,   507,   510,   511,   512,   513,
+     514,   515,   516,   517,   518,   526,   527,   528,   531,   532
 };
 #endif
 
@@ -2264,8 +2264,20 @@ yyreduce:
 #line 2265 "y.tab.c"
     break;
 
+  case 117: /* data: ID_TOK  */
+#line 330 "./C_parser.y"
+                                                {
+							if(!hashMapIsPresent(map,(yyvsp[0].idval)))
+							{
+								fprintf(yyout,"%s is not declared in scope\n",(yyvsp[0].idval));
+								exit(EXIT_FAILURE);
+							}
+						}
+#line 2277 "y.tab.c"
+    break;
+
   case 127: /* declaration: datatype ID_TOK  */
-#line 343 "./C_parser.y"
+#line 350 "./C_parser.y"
                                          {
                             if(hashMapIsPresent(map, (yyvsp[0].idval))) {
                                 fprintf(yyout,"Variable %s is already declared\n", (yyvsp[0].idval));
@@ -2276,23 +2288,11 @@ yyreduce:
                                         (yyvsp[0].idval), type, scope);
                             }
                         }
-#line 2280 "y.tab.c"
-    break;
-
-  case 147: /* initialization: ID_TOK assignment_operator func_call  */
-#line 383 "./C_parser.y"
-                                                {
-							if(!hashMapIsPresent(map,(yyvsp[-2].idval)))
-							{
-								fprintf(yyout,"Variable %s is not declared\n",(yyvsp[-2].idval));
-								exit(EXIT_FAILURE);
-							}
-						}
 #line 2292 "y.tab.c"
     break;
 
-  case 148: /* initialization: ID_TOK assignment_operator data  */
-#line 391 "./C_parser.y"
+  case 147: /* initialization: ID_TOK assignment_operator func_call  */
+#line 390 "./C_parser.y"
                                                 {
 							if(!hashMapIsPresent(map,(yyvsp[-2].idval)))
 							{
@@ -2303,20 +2303,8 @@ yyreduce:
 #line 2304 "y.tab.c"
     break;
 
-  case 149: /* initialization: ID_TOK assignment_operator LPAREN_TOK expression RPAREN_TOK  */
-#line 399 "./C_parser.y"
-                                                {
-							if(!hashMapIsPresent(map,(yyvsp[-4].idval)))
-							{
-								fprintf(yyout,"Variable %s is not declared\n",(yyvsp[-4].idval));
-								exit(EXIT_FAILURE);
-							}
-						}
-#line 2316 "y.tab.c"
-    break;
-
-  case 150: /* initialization: ID_TOK assignment_operator expression  */
-#line 407 "./C_parser.y"
+  case 148: /* initialization: ID_TOK assignment_operator data  */
+#line 398 "./C_parser.y"
                                                 {
 							if(!hashMapIsPresent(map,(yyvsp[-2].idval)))
 							{
@@ -2324,23 +2312,35 @@ yyreduce:
 								exit(EXIT_FAILURE);
 							}
 						}
+#line 2316 "y.tab.c"
+    break;
+
+  case 149: /* initialization: ID_TOK assignment_operator LPAREN_TOK expression RPAREN_TOK  */
+#line 406 "./C_parser.y"
+                                                {
+							if(!hashMapIsPresent(map,(yyvsp[-4].idval)))
+							{
+								fprintf(yyout,"Variable %s is not declared\n",(yyvsp[-4].idval));
+								exit(EXIT_FAILURE);
+							}
+						}
 #line 2328 "y.tab.c"
     break;
 
-  case 151: /* initialization: ID_TOK PLUS_PLUS_TOK  */
-#line 415 "./C_parser.y"
+  case 150: /* initialization: ID_TOK assignment_operator expression  */
+#line 414 "./C_parser.y"
                                                 {
-							if(!hashMapIsPresent(map,(yyvsp[-1].idval)))
+							if(!hashMapIsPresent(map,(yyvsp[-2].idval)))
 							{
-								fprintf(yyout,"Variable %s is not declared\n",(yyvsp[-1].idval));
+								fprintf(yyout,"Variable %s is not declared\n",(yyvsp[-2].idval));
 								exit(EXIT_FAILURE);
 							}
 						}
 #line 2340 "y.tab.c"
     break;
 
-  case 152: /* initialization: ID_TOK MINUS_MINUS_TOK  */
-#line 423 "./C_parser.y"
+  case 151: /* initialization: ID_TOK PLUS_PLUS_TOK  */
+#line 422 "./C_parser.y"
                                                 {
 							if(!hashMapIsPresent(map,(yyvsp[-1].idval)))
 							{
@@ -2351,20 +2351,20 @@ yyreduce:
 #line 2352 "y.tab.c"
     break;
 
-  case 153: /* initialization: PLUS_PLUS_TOK ID_TOK  */
-#line 431 "./C_parser.y"
+  case 152: /* initialization: ID_TOK MINUS_MINUS_TOK  */
+#line 430 "./C_parser.y"
                                                 {
-							if(!hashMapIsPresent(map,(yyvsp[0].idval)))
+							if(!hashMapIsPresent(map,(yyvsp[-1].idval)))
 							{
-								fprintf(yyout,"Variable %s is not declared\n",(yyvsp[0].idval));
+								fprintf(yyout,"Variable %s is not declared\n",(yyvsp[-1].idval));
 								exit(EXIT_FAILURE);
 							}
 						}
 #line 2364 "y.tab.c"
     break;
 
-  case 154: /* initialization: MINUS_MINUS_TOK ID_TOK  */
-#line 439 "./C_parser.y"
+  case 153: /* initialization: PLUS_PLUS_TOK ID_TOK  */
+#line 438 "./C_parser.y"
                                                 {
 							if(!hashMapIsPresent(map,(yyvsp[0].idval)))
 							{
@@ -2375,98 +2375,110 @@ yyreduce:
 #line 2376 "y.tab.c"
     break;
 
-  case 156: /* datatype: INT_TOK  */
-#line 449 "./C_parser.y"
-                                                {strcpy(type,"int");}
-#line 2382 "y.tab.c"
-    break;
-
-  case 157: /* datatype: FLOAT_TOK  */
-#line 450 "./C_parser.y"
-                                                          {strcpy(type,"float");}
+  case 154: /* initialization: MINUS_MINUS_TOK ID_TOK  */
+#line 446 "./C_parser.y"
+                                                {
+							if(!hashMapIsPresent(map,(yyvsp[0].idval)))
+							{
+								fprintf(yyout,"Variable %s is not declared\n",(yyvsp[0].idval));
+								exit(EXIT_FAILURE);
+							}
+						}
 #line 2388 "y.tab.c"
     break;
 
-  case 158: /* datatype: DOUBLE_TOK  */
-#line 451 "./C_parser.y"
-                                                           {strcpy(type,"double");}
+  case 156: /* datatype: INT_TOK  */
+#line 456 "./C_parser.y"
+                                                {strcpy(type,"int");}
 #line 2394 "y.tab.c"
     break;
 
-  case 159: /* datatype: LONG_TOK  */
-#line 452 "./C_parser.y"
-                                                         {strcpy(type,"long");}
+  case 157: /* datatype: FLOAT_TOK  */
+#line 457 "./C_parser.y"
+                                                          {strcpy(type,"float");}
 #line 2400 "y.tab.c"
     break;
 
-  case 160: /* datatype: CHAR_TOK  */
-#line 453 "./C_parser.y"
-                                                         {strcpy(type,"char");}
+  case 158: /* datatype: DOUBLE_TOK  */
+#line 458 "./C_parser.y"
+                                                           {strcpy(type,"double");}
 #line 2406 "y.tab.c"
     break;
 
-  case 161: /* datatype: SHORT_TOK  */
-#line 454 "./C_parser.y"
-                                                          {strcpy(type,"short");}
+  case 159: /* datatype: LONG_TOK  */
+#line 459 "./C_parser.y"
+                                                         {strcpy(type,"long");}
 #line 2412 "y.tab.c"
     break;
 
-  case 162: /* datatype: VOID_TOK  */
-#line 455 "./C_parser.y"
-                                                         {strcpy(type,"void");}
+  case 160: /* datatype: CHAR_TOK  */
+#line 460 "./C_parser.y"
+                                                         {strcpy(type,"char");}
 #line 2418 "y.tab.c"
     break;
 
-  case 163: /* datatype: SIGNED_TOK INT_TOK  */
-#line 456 "./C_parser.y"
-                                                                   {strcpy(type,"signed int");}
+  case 161: /* datatype: SHORT_TOK  */
+#line 461 "./C_parser.y"
+                                                          {strcpy(type,"short");}
 #line 2424 "y.tab.c"
     break;
 
-  case 164: /* datatype: UNSIGNED_TOK INT_TOK  */
-#line 457 "./C_parser.y"
-                                                                     {strcpy(type,"unsigned int");}
+  case 162: /* datatype: VOID_TOK  */
+#line 462 "./C_parser.y"
+                                                         {strcpy(type,"void");}
 #line 2430 "y.tab.c"
     break;
 
-  case 165: /* datatype: SIGNED_TOK CHAR_TOK  */
-#line 458 "./C_parser.y"
-                                                                    {strcpy(type,"signed char");}
+  case 163: /* datatype: SIGNED_TOK INT_TOK  */
+#line 463 "./C_parser.y"
+                                                                   {strcpy(type,"signed int");}
 #line 2436 "y.tab.c"
     break;
 
-  case 166: /* datatype: UNSIGNED_TOK CHAR_TOK  */
-#line 459 "./C_parser.y"
-                                                                      {strcpy(type,"unsigned char");}
+  case 164: /* datatype: UNSIGNED_TOK INT_TOK  */
+#line 464 "./C_parser.y"
+                                                                     {strcpy(type,"unsigned int");}
 #line 2442 "y.tab.c"
     break;
 
-  case 167: /* datatype: SIGNED_TOK SHORT_TOK  */
-#line 460 "./C_parser.y"
-                                                                     {strcpy(type,"signed short");}
+  case 165: /* datatype: SIGNED_TOK CHAR_TOK  */
+#line 465 "./C_parser.y"
+                                                                    {strcpy(type,"signed char");}
 #line 2448 "y.tab.c"
     break;
 
-  case 168: /* datatype: UNSIGNED_TOK SHORT_TOK  */
-#line 461 "./C_parser.y"
-                                                                       {strcpy(type,"unsigned short");}
+  case 166: /* datatype: UNSIGNED_TOK CHAR_TOK  */
+#line 466 "./C_parser.y"
+                                                                      {strcpy(type,"unsigned char");}
 #line 2454 "y.tab.c"
     break;
 
-  case 169: /* datatype: SIGNED_TOK LONG_TOK  */
-#line 462 "./C_parser.y"
-                                                                    {strcpy(type,"signed long");}
+  case 167: /* datatype: SIGNED_TOK SHORT_TOK  */
+#line 467 "./C_parser.y"
+                                                                     {strcpy(type,"signed short");}
 #line 2460 "y.tab.c"
     break;
 
-  case 170: /* datatype: UNSIGNED_TOK LONG_TOK  */
-#line 463 "./C_parser.y"
-                                                                      {strcpy(type,"unsigned long");}
+  case 168: /* datatype: UNSIGNED_TOK SHORT_TOK  */
+#line 468 "./C_parser.y"
+                                                                       {strcpy(type,"unsigned short");}
 #line 2466 "y.tab.c"
     break;
 
+  case 169: /* datatype: SIGNED_TOK LONG_TOK  */
+#line 469 "./C_parser.y"
+                                                                    {strcpy(type,"signed long");}
+#line 2472 "y.tab.c"
+    break;
 
-#line 2470 "y.tab.c"
+  case 170: /* datatype: UNSIGNED_TOK LONG_TOK  */
+#line 470 "./C_parser.y"
+                                                                      {strcpy(type,"unsigned long");}
+#line 2478 "y.tab.c"
+    break;
+
+
+#line 2482 "y.tab.c"
 
       default: break;
     }
@@ -2659,7 +2671,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 528 "./C_parser.y"
+#line 535 "./C_parser.y"
 
 
 void yyerror(char* yyErrorText)

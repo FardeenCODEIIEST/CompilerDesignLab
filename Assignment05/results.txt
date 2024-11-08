@@ -26,4 +26,19 @@ Parsed a for loop at line no: 14
 Parsed a relational expression at line no:- 16
                 
 Parsed an arithmetic expression at line no:- 18
-Variable f is not declared
+    
+Parsed a while loop at line no: 19
+                                  
+Parsed a case statement at line no:- 26
+                     
+Parsed a case statement at line no:- 29
+                    
+Parsed a case statement at line no:- 32
+
+Parsed a switch block at line no:- 32
+     
+Parsed a function block with return at line no: 35
+
+Parsed a function at line no:- 35
+
+Program successfully parsed!!!

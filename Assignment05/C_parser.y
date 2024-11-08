@@ -327,6 +327,13 @@ data_t					:ID_TOK
 
 data					:number_literal
 						|ID_TOK
+						{
+							if(!hashMapIsPresent(map,$1))
+							{
+								fprintf(yyout,"%s is not declared in scope\n",$1);
+								exit(EXIT_FAILURE);
+							}
+						}
 						|AND_TOK ID_TOK
 						|SIZEOF_TOK LPAREN_TOK data_t RPAREN_TOK
 						;
