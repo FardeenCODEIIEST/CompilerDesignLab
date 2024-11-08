@@ -323,6 +323,13 @@ relational_expression	:data relational_operator data{fprintf(yyout,"\nParsed a r
 						;
 
 data_t					:ID_TOK
+						{
+							if(!hashMapIsPresent(map,$1))
+							{
+								fprintf(yyout,"Variable %s is not declared in scope\n",$1);
+								exit(EXIT_FAILURE);
+							}
+						}
 						|datatype
 
 data					:number_literal
@@ -330,7 +337,7 @@ data					:number_literal
 						{
 							if(!hashMapIsPresent(map,$1))
 							{
-								fprintf(yyout,"%s is not declared in scope\n",$1);
+								fprintf(yyout,"Variable %s is not declared in scope\n",$1);
 								exit(EXIT_FAILURE);
 							}
 						}

@@ -31,5 +31,7 @@ int main(int argc, char argv)
         break;
     }
 
+    int k = sizeof(d);
+
     return 0;
 }

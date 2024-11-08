@@ -36,9 +36,6 @@ Parsed a case statement at line no:- 29
 Parsed a case statement at line no:- 32
 
 Parsed a switch block at line no:- 32
-     
-Parsed a function block with return at line no: 35
-
-Parsed a function at line no:- 35
-
-Program successfully parsed!!!
+      
+Variable k of type int with scope 2 has been declared
+ d is not declared in scope
